@@ -1,103 +1,212 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { Course, Registration } from "./CoursesForm/types";
+import CourseCard from "./CoursesForm/coursescard";
+import RegistrationForm from "./CoursesForm/registrationform";
+import WhatsAppModal from "./CoursesForm/whatsappModal";
+
+// Sample course data - replace with your actual data or API call
+const courses: Course[] = [
+  {
+    id: "course-1",
+    title: "UI/UX DESIGN TRAINING",
+    description:
+      "Start your journey in tech by learning how to design user-friendly and visually appealing websites and apps.",
+    details: [
+      "Master Wireframing, Prototyping, and User Research",
+      "Learn Figma, Adobe XD, and more",
+      "Work on real-world projects",
+    ],
+    duration: "10 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Paid internship and job hunting guide",
+  },
+  {
+    id: "course-2",
+    title: "FRONTEND DEVELOPMENT TRAINING",
+    description: "Build interactive websites and applications from scratch.",
+    details: [
+      "Learn HTML, CSS, JavaScript, and React",
+      "Create stunning and responsive web pages",
+      "Work on real-world projects with expert guidance",
+    ],
+    duration: "12 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Paid internship and remote job training",
+  },
+  {
+    id: "course-3",
+    title: "BACKEND DEVELOPMENT TRAINING",
+    description: "Learn to build powerful and secure web applications.",
+    details: [
+      "Master Node.js, Python, and Databases (SQL & NoSQL)",
+      "Understand API development and authentication",
+      "Develop backend systems used in modern applications",
+    ],
+    duration: "12 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Paid internship and job search strategy",
+  },
+  {
+    id: "course-4",
+    title: "DATA ANALYTICS TRAINING",
+    description: "Learn how to analyze and interpret data for business growth.",
+    details: [
+      "Master Excel, SQL, Power BI, and Python",
+      "Gain insights from data and make informed decisions",
+      "Work on practical projects and case studies",
+    ],
+    duration: "12 Weeks",
+    fee: "NGN 75,000",
+    bonus: "Internship and remote job training",
+  },
+  {
+    id: "course-5",
+    title: "CYBERSECURITY TRAINING",
+    description:
+      "Start a career in tech by learning how to protect businesses from cyber threats.",
+    details: [
+      "Learn Ethical Hacking, Network Security, and Cloud Security",
+      "Get hands-on experience with security tools and challenges",
+      "Develop skills to secure systems and prevent cyber attacks",
+    ],
+    duration: "12 Weeks",
+    fee: "NGN 75,000",
+    bonus: "Internship and cybersecurity career coaching",
+  },
+  {
+    id: "course-6",
+    title: "VIRTUAL ASSISTANT TRAINING",
+    description:
+      "Work remotely and build a successful career as a virtual assistant.",
+    details: [
+      "Learn Admin Support, Email, and Calendar Management",
+      "Master productivity tools and automation",
+      "Gain skills to manage clients and grow your career",
+    ],
+    duration: "6 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Internship and job search guide",
+  },
+  {
+    id: "course-7",
+    title: "DIGITAL MARKETING TRAINING",
+    description: "Learn how to market businesses and brands online.",
+    details: [
+      "Master SEO, Google & Facebook Ads, and Social Media Marketing",
+      "Create successful online campaigns",
+      "Develop strategies to grow businesses in the digital space",
+    ],
+    duration: "8 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Internship and freelancing training",
+  },
+  {
+    id: "course-8",
+    title: "PROJECT MANAGEMENT TRAINING",
+    description: "Learn the essential skills to manage projects effectively.",
+    details: [
+      "Master Agile, Scrum, Kanban, and Waterfall methodologies",
+      "Understand project planning, execution, and risk management",
+      "Work on practical case studies and real-world projects",
+    ],
+    duration: "8 Weeks",
+    fee: "NGN 50,000",
+    bonus: "Internship and remote work training",
+  },
+];
+
+export default function CoursesPage() {
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleCourseSelect = (course: Course) => {
+    setSelectedCourse(course);
+    setShowRegistrationForm(true);
+  };
+
+  const handleRegistrationSubmit = async (data: Registration) => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        "https://admin.studysmart.pro/academy/enroll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Registration failed. Please try again."
+        );
+      }
+
+      // Registration successful
+      setShowRegistrationForm(false);
+      setShowWhatsAppModal(true);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseRegistrationForm = () => {
+    setShowRegistrationForm(false);
+    setSelectedCourse(null);
+    setError(null);
+  };
+
+  const handleCloseWhatsAppModal = () => {
+    setShowWhatsAppModal(false);
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="container mx-auto py-12 px-4">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Our Courses</h1>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Explore our range of professional courses designed to help you advance
+          your career and develop new skills.
+        </p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {courses.map((course) => (
+          <CourseCard
+            key={course.id}
+            course={course}
+            onSelect={() => handleCourseSelect(course)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        ))}
+      </div>
+
+      {showRegistrationForm && selectedCourse && (
+        <RegistrationForm
+          course={selectedCourse}
+          onSubmit={handleRegistrationSubmit}
+          onClose={handleCloseRegistrationForm}
+          isLoading={isLoading}
+          error={error}
+        />
+      )}
+
+      {showWhatsAppModal && (
+        <WhatsAppModal onClose={handleCloseWhatsAppModal} />
+      )}
     </div>
   );
 }
