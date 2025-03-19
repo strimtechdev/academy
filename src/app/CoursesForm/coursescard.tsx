@@ -50,7 +50,7 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
       </CardContent>
       <CardFooter className="pt-2">
         <Button onClick={onSelect} className="w-full">
-          Register Now
+          Enroll now
         </Button>
       </CardFooter>
     </Card>
