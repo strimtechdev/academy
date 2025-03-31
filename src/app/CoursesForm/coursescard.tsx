@@ -49,7 +49,7 @@ export default function CourseCard({ course, onSelect }: CourseCardProps) {
         </div>
       </CardContent>
       <CardFooter className="pt-2">
-        <Button onClick={onSelect} className="w-full">
+        <Button onClick={onSelect} className="w-full cursor-pointer">
           Enroll now
         </Button>
       </CardFooter>

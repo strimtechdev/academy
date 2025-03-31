@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import LinkButton from "@/components/LinkButton";
 import Image from "next/image";
 import CoursesPage from "./CoursesForm/coursespage";
 import { Footer } from "@/components/footer";
@@ -37,7 +36,7 @@ export default function Page() {
             transition={{ duration: 1, ease: "easeOut" }}
             className="mb-6 font-serif text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl"
           >
-            Transforming Ideas Into Digital Excellence
+            Master In-Demand Tech Skills & Build Your Future!
           </motion.h1>
 
           <motion.p
@@ -46,12 +45,12 @@ export default function Page() {
             transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
             className="mb-8 text-xl text-gray-200"
           >
-            Our comprehensive suite of services is designed to elevate your
-            online presence to ensure seamless digital experience.
+            Learn in-demand tech skills with expert-led training, hands-on
+            projects, and flexible learning options. Start your journey today.
           </motion.p>
 
           {/* Buttons with Staggered Animation */}
-          <motion.div
+          {/* <motion.div
             initial="hidden"
             animate="visible"
             variants={{
@@ -89,7 +88,7 @@ export default function Page() {
                 Contact Us
               </LinkButton>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
       <CoursesPage />
