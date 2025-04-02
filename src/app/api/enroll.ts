@@ -1,5 +1,5 @@
-import { Registration } from "@/components/CoursesForm/types";
 import { NextResponse } from "next/server";
+import { Registration } from "../CoursesForm/types";
 
 export async function POST(request: Request) {
   try {
