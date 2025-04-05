@@ -12,18 +12,11 @@ import { Button } from "@/components/ui/button";
 
 interface WhatsAppModalProps {
   onClose: () => void;
-  whatsappNumber?: string;
 }
 
-export default function WhatsAppModal({
-  onClose,
-  whatsappNumber = "+2348146020799",
-}: WhatsAppModalProps) {
+export default function WhatsAppModal({ onClose }: WhatsAppModalProps) {
   const handleWhatsAppRedirect = () => {
-    window.open(
-      `https://wa.me/${whatsappNumber}?text=I%20just%20registered%20for%20a%20course`,
-      "_blank"
-    );
+    window.open("https://chat.whatsapp.com/KKycMd320a1GEAwDKcuPTA", "_blank");
     onClose();
   };
 
@@ -33,14 +26,12 @@ export default function WhatsAppModal({
         <DialogHeader>
           <DialogTitle>Registration Successful!</DialogTitle>
           <DialogDescription>
-            Thank you for registering. Would you like to join our WhatsApp group
-            for updates and support?
+            You have successfully registered. Join our WhatsApp group now to get
+            important updates, learning resources, and support throughout your
+            training.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0">
-          <Button variant="outline" onClick={onClose} className="sm:mr-2">
-            Not Now
-          </Button>
           <Button onClick={handleWhatsAppRedirect}>Join WhatsApp Group</Button>
         </DialogFooter>
       </DialogContent>

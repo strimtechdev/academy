@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Course, Registration } from "./types";
+import type { Course, Registration } from "./types";
 import {
   Dialog,
   DialogContent,
@@ -62,16 +62,19 @@ export default function RegistrationForm({
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
           <DialogTitle>Register for {course.title}</DialogTitle>
           <DialogDescription>
             Fill out the form below to register for this course. We&apos;ll send
             you a confirmation email.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col flex-1 overflow-hidden"
+        >
+          <div className="grid gap-4 py-4 overflow-y-auto pr-1 flex-1">
             <div className="grid gap-2">
               <Label htmlFor="firstname">First Name</Label>
               <Input
@@ -138,8 +141,8 @@ export default function RegistrationForm({
               </Alert>
             )}
           </div>
-          <DialogFooter>
-            <Button type="button" onClick={onClose}>
+          <DialogFooter className="flex flex-col gap-6 mt-4 flex-shrink-0 border-t pt-4">
+            <Button type="button" variant="outline" onClick={onClose}>
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>
