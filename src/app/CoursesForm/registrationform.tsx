@@ -177,10 +177,16 @@ export default function RegistrationForm({
           </div>
           <DialogFooter className="flex-shrink-0 border-t pt-4 mt-auto">
             <div className="flex flex-col w-full gap-3">
-              <Button type="button" variant="outline" onClick={onClose}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={onClose}
+                className="cursor-pointer"
+              >
                 Cancel
               </Button>
               <Button
+                className="cursor-pointer"
                 type="submit"
                 disabled={isLoading}
                 form="registration-form"
