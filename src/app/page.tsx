@@ -21,14 +21,14 @@ export default function Page() {
           <Image
             src="/homepage/hero-image.jpeg"
             alt="Background"
-            fill
-            className="object-cover"
+            className="object-cover w-full h-full"
             priority
+            width={1000}
+            height={1000}
           />
-          <div className="absolute inset-0 bg-black/70" /> {/* Dark overlay */}
+          <div className="absolute inset-0 bg-black/70" />
         </motion.div>
 
-        {/* Content */}
         <div className="relative z-10 flex flex-col h-full items-center justify-center text-center text-white max-content padding-x">
           <motion.h1
             initial={{ opacity: 0, y: 50 }}

@@ -6,7 +6,6 @@ import CourseCard from "./coursescard";
 import RegistrationForm from "./registrationform";
 import WhatsAppModal from "./whatsappModal";
 
-// Sample course data - replace with your actual data or API call
 const courses: Course[] = [
   {
     id: "course-1",
@@ -152,7 +151,6 @@ export default function CoursesPage() {
         );
       }
 
-      // Registration successful
       setShowRegistrationForm(false);
       setShowWhatsAppModal(true);
     } catch (err) {
