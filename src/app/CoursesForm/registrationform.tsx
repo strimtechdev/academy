@@ -88,7 +88,7 @@ export default function RegistrationForm({
     // If all validations pass, submit the form
     onSubmit({
       ...formData,
-      courseId: course.id,
+      courseId: course.title,
     });
   };
 

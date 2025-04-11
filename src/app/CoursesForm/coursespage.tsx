@@ -140,9 +140,14 @@ export default function CoursesPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify({
+            ...data,
+            courseTitle: selectedCourse?.title, // Change this from courseId to courseTitle
+          }),
         }
       );
+
+      console.log("Response:", response);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -150,6 +155,8 @@ export default function CoursesPage() {
           errorData.message || "Registration failed. Please try again."
         );
       }
+
+      console.log("Data:", data);
 
       setShowRegistrationForm(false);
       setShowWhatsAppModal(true);
