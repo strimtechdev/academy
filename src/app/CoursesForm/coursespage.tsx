@@ -26,7 +26,7 @@ const courses: Course[] = [
     title: "FRONTEND DEVELOPMENT TRAINING",
     description: "Build interactive websites and applications from scratch.",
     details: [
-      "Learn HTML, CSS, JavaScript, and React",
+      "Learn HTML, CSS, JavaScript",
       "Create stunning and responsive web pages",
       "Work on real-world projects with expert guidance",
     ],
@@ -36,10 +36,10 @@ const courses: Course[] = [
   },
   {
     id: "course-3",
-    title: "BACKEND DEVELOPMENT TRAINING",
-    description: "Learn to build powerful and secure web applications.",
+    title: "FULLSTACK / BACKEND DEVELOPMENT TRAINING",
+    description: "Learn to build powerful and secure web applications from scratch.",
     details: [
-      "Master Node.js, Python, and Databases (SQL & NoSQL)",
+      "Master PHP, phpMyAdmin and Database (MYSQL)",
       "Understand API development and authentication",
       "Develop backend systems used in modern applications",
     ],
