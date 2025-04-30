@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Course, Registration } from "./types";
 import CourseCard from "./coursescard";
 import RegistrationForm from "./registrationform";
 import WhatsAppModal from "./whatsappModal";
+import { useSearchParams } from "next/navigation";
 
 const courses: Course[] = [
   {
@@ -37,7 +38,8 @@ const courses: Course[] = [
   {
     id: "course-3",
     title: "FULLSTACK / BACKEND DEVELOPMENT TRAINING",
-    description: "Learn to build powerful and secure web applications from scratch.",
+    description:
+      "Learn to build powerful and secure web applications from scratch.",
     details: [
       "Master PHP, phpMyAdmin and Database (MYSQL)",
       "Understand API development and authentication",
@@ -117,11 +119,29 @@ const courses: Course[] = [
 ];
 
 export default function CoursesPage() {
+  const searchParams = useSearchParams();
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [referrer, setReferrer] = useState<string>(""); // Initialize as empty string instead of null
+
+  useEffect(() => {
+    // Get referrer from URL parameters
+    const ref = searchParams.get("ref");
+    if (ref) {
+      setReferrer(ref);
+      // Save referrer to localStorage to persist it
+      localStorage.setItem("referrer", ref);
+    } else {
+      // Try to get from localStorage if not in URL
+      const storedRef = localStorage.getItem("referrer");
+      if (storedRef) {
+        setReferrer(storedRef);
+      }
+    }
+  }, [searchParams]);
 
   const handleCourseSelect = (course: Course) => {
     setSelectedCourse(course);
@@ -133,6 +153,15 @@ export default function CoursesPage() {
     setError(null);
 
     try {
+      // Force the ref to be a string, never null
+      const submissionData = {
+        ...data,
+        courseTitle: selectedCourse?.title,
+        ref: (data.ref || referrer || "").toString(), // Ensure it's always a string
+      };
+
+      console.log("Submitting data with ref:", submissionData.ref);
+
       const response = await fetch(
         "https://admin.studysmart.pro/academy/enroll",
         {
@@ -140,23 +169,16 @@ export default function CoursesPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...data,
-            courseTitle: selectedCourse?.title, // Change this from courseId to courseTitle
-          }),
+          body: JSON.stringify(submissionData),
         }
       );
-
-      console.log("Response:", response);
-
+      console.log("Response from server:", response);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
           errorData.message || "Registration failed. Please try again."
         );
       }
-
-      console.log("Data:", data);
 
       setShowRegistrationForm(false);
       setShowWhatsAppModal(true);
@@ -179,6 +201,19 @@ export default function CoursesPage() {
     setShowWhatsAppModal(false);
   };
 
+  const ReferrerBanner = () => {
+    if (!referrer) return null;
+
+    return (
+      <div className="bg-blue-50 border border-blue-200 rounded-md p-3 mb-6 text-center">
+        <p className="text-blue-700">
+          You were referred by:{" "}
+          <span className="font-semibold">{referrer}</span>
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div className="max-content py-12 px-4 ">
       <div className="text-center mb-12">
@@ -187,6 +222,7 @@ export default function CoursesPage() {
           Explore our range of professional courses designed to help you advance
           your career and develop new skills.
         </p>
+        <ReferrerBanner />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -206,6 +242,7 @@ export default function CoursesPage() {
           onClose={handleCloseRegistrationForm}
           isLoading={isLoading}
           error={error}
+          referrer={referrer} // This will always be a string now
         />
       )}
 

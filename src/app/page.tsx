@@ -5,13 +5,10 @@ import Image from "next/image";
 import CoursesPage from "./CoursesForm/coursespage";
 import { Footer } from "@/components/footer";
 
-// Sample course data - replace with your actual data or API call
-
 export default function Page() {
   return (
     <div className="">
       <div className="relative md:h-[800px] h-[700px] overflow-hidden">
-        {/* Background Image with Overlay */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -48,47 +45,6 @@ export default function Page() {
             Learn in-demand tech skills with expert-led training, hands-on
             projects, and flexible learning options. Start your journey today.
           </motion.p>
-
-          {/* Buttons with Staggered Animation */}
-          {/* <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: {
-                opacity: 1,
-                y: 0,
-                transition: { staggerChildren: 0.2, delayChildren: 0.5 },
-              },
-            }}
-            className="flex justify-start gap-4"
-          >
-            <motion.div
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            ></motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            ></motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            ></motion.div>
-
-            <motion.div
-              variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-            >
-              <LinkButton
-                href="/contact"
-                bgColor="bg-white"
-                textColor="text-black"
-                size="md"
-                className="md:hidden"
-              >
-                Contact Us
-              </LinkButton>
-            </motion.div>
-          </motion.div> */}
         </div>
       </div>
       <CoursesPage />

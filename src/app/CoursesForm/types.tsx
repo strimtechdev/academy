@@ -9,10 +9,11 @@ export interface Course {
 }
 
 export interface Registration {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phoneNumber: string;
-  state: string;
-  courseId: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  phoneNumber?: string;
+  state?: string;
+  courseTitle: string;
+  ref: string;
 }

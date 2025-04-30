@@ -1,7 +1,7 @@
 "use client";
 
 import type React from "react";
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -24,6 +24,7 @@ interface RegistrationFormProps {
   onClose: () => void;
   isLoading: boolean;
   error: string | null;
+  referrer?: string | null;
 }
 
 export default function RegistrationForm({
@@ -32,22 +33,29 @@ export default function RegistrationForm({
   onClose,
   isLoading,
   error,
+  referrer,
 }: RegistrationFormProps) {
+  // Initialize form data with referrer as empty string if null
   const [formData, setFormData] = useState<{
     firstname: string;
     lastname: string;
     email: string;
     phoneNumber: string;
     state: string;
+    courseTitle: string;
+    ref: string; // Changed from string | null to just string
   }>({
     firstname: "",
     lastname: "",
     email: "",
     phoneNumber: "",
     state: "",
+    courseTitle: course.title,
+    ref: referrer || "", // Always initialize as string, never as null
   });
 
   const [validationError, setValidationError] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,13 +69,19 @@ export default function RegistrationForm({
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    // Check if any field is empty
-    const isEmpty = Object.values(formData).some(
-      (value) => value.trim() === ""
-    );
+    // Check if any required field is empty
+    const isRequiredFieldEmpty = [
+      "firstname",
+      "lastname",
+      "email",
+      "phoneNumber",
+      "state",
+    ].some((field) => !formData[field as keyof typeof formData]);
 
-    if (isEmpty) {
-      setValidationError("Please fill in all fields before submitting.");
+    if (isRequiredFieldEmpty) {
+      setValidationError(
+        "Please fill in all required fields before submitting."
+      );
       return;
     }
 
@@ -85,17 +99,19 @@ export default function RegistrationForm({
       return;
     }
 
-    // If all validations pass, submit the form
+    // If all validations pass, submit the form with referrer as string
     onSubmit({
       ...formData,
-      courseId: course.title,
+      courseTitle: course.title,
+      ref: referrer || "", // Always send as string, never as null
     });
   };
+  console.log("Formdata", formData);
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <div className="max-h-screen overflow-y-auto">
-        <DialogContent className="sm:max-w-[425px] p-6 flex flex-col max-h-[80vh] overflow-y-auto">
+        <DialogContent className="sm:max-w-[425px] p-6 flex flex-col max-h-[80vh] overflow-y-auto z-50">
           <DialogHeader className="flex-shrink-0">
             <DialogTitle>Register for {course.title}</DialogTitle>
             <DialogDescription>
@@ -103,8 +119,20 @@ export default function RegistrationForm({
               send you a confirmation email.
             </DialogDescription>
           </DialogHeader>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded mb-4">
+              {error}
+            </div>
+          )}
+
+          {referrer && (
+            <div className="bg-blue-50 border border-blue-200 text-blue-700 p-3 rounded mb-4">
+              Referred by: {referrer}
+            </div>
+          )}
           <div className="flex-grow my-4 pr-2">
-            <form id="registration-form" onSubmit={handleSubmit}>
+            <form id="registration-form" ref={formRef} onSubmit={handleSubmit}>
               <div className="grid gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="firstname">First Name</Label>
