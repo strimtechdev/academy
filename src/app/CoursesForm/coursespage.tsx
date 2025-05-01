@@ -163,11 +163,10 @@ export default function CoursesPage() {
           body: JSON.stringify({
             ...data,
             courseTitle: selectedCourse?.title, // Change this from courseId to courseTitle
-            ref: (data.ref || referrer || "").toString(), // Ensure it's always a string
+            ref: (data.ref || referrer || "").toString(),
           }),
         }
       );
-      // Force the ref to be a string, never null
 
       console.log("Response from server:", data);
 

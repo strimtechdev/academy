@@ -120,7 +120,7 @@ export default function RegistrationForm({
             </DialogDescription>
           </DialogHeader>
 
-          {error && (
+          {/* {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded mb-4">
               {error}
             </div>
@@ -130,7 +130,7 @@ export default function RegistrationForm({
             <div className="bg-blue-50 border border-blue-200 text-blue-700 p-3 rounded mb-4">
               Referred by: {referrer}
             </div>
-          )}
+          )} */}
           <div className="flex-grow my-4 pr-2">
             <form id="registration-form" ref={formRef} onSubmit={handleSubmit}>
               <div className="grid gap-4">
