@@ -107,7 +107,6 @@ export default function RegistrationForm({
       ref: referrer || "",
     });
   };
-  console.log("Formdata", formData);
 
   return (
     <Dialog open={true} onOpenChange={onClose}>

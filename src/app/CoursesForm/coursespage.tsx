@@ -169,14 +169,8 @@ export default function CoursesPage() {
       );
       // Force the ref to be a string, never null
 
-      console.log("selectedCourse", selectedCourse);
-      console.log("Data sent to server:", {
-        ...data,
-        courseTitle: selectedCourse?.title,
-        ref: (data.ref || referrer || "").toString(),
-      });
-      console.log("Response status:", response.status);
       console.log("Response from server:", data);
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
