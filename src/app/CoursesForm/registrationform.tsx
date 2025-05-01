@@ -25,6 +25,7 @@ interface RegistrationFormProps {
   isLoading: boolean;
   error: string | null;
   referrer?: string | null;
+  courseId?: string;
 }
 
 export default function RegistrationForm({
@@ -42,16 +43,16 @@ export default function RegistrationForm({
     email: string;
     phoneNumber: string;
     state: string;
-    courseTitle: string;
-    ref: string; // Changed from string | null to just string
+    courseId: string;
+    ref: string;
   }>({
     firstname: "",
     lastname: "",
     email: "",
     phoneNumber: "",
     state: "",
-    courseTitle: course.title,
-    ref: referrer || "", // Always initialize as string, never as null
+    courseId: course.title,
+    ref: referrer || "",
   });
 
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -102,8 +103,8 @@ export default function RegistrationForm({
     // If all validations pass, submit the form with referrer as string
     onSubmit({
       ...formData,
-      courseTitle: course.title,
-      ref: referrer || "", // Always send as string, never as null
+      courseId: course.title,
+      ref: referrer || "",
     });
   };
   console.log("Formdata", formData);

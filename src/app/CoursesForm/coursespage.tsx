@@ -125,7 +125,7 @@ export default function CoursesPage() {
   const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [referrer, setReferrer] = useState<string>(""); // Initialize as empty string instead of null
+  const [referrer, setReferrer] = useState<string>("");
 
   useEffect(() => {
     // Get referrer from URL parameters
@@ -153,15 +153,6 @@ export default function CoursesPage() {
     setError(null);
 
     try {
-      // Force the ref to be a string, never null
-      const submissionData = {
-        ...data,
-        courseTitle: selectedCourse?.title,
-        ref: (data.ref || referrer || "").toString(), // Ensure it's always a string
-      };
-
-      console.log("Submitting data with ref:", submissionData.ref);
-
       const response = await fetch(
         "https://admin.studysmart.pro/academy/enroll",
         {
@@ -169,10 +160,23 @@ export default function CoursesPage() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(submissionData),
+          body: JSON.stringify({
+            ...data,
+            courseTitle: selectedCourse?.title, // Change this from courseId to courseTitle
+            ref: (data.ref || referrer || "").toString(), // Ensure it's always a string
+          }),
         }
       );
-      console.log("Response from server:", response);
+      // Force the ref to be a string, never null
+
+      console.log("selectedCourse", selectedCourse);
+      console.log("Data sent to server:", {
+        ...data,
+        courseTitle: selectedCourse?.title,
+        ref: (data.ref || referrer || "").toString(),
+      });
+      console.log("Response status:", response.status);
+      console.log("Response from server:", data);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(

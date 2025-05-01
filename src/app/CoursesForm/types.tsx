@@ -14,6 +14,6 @@ export interface Registration {
   email?: string;
   phoneNumber?: string;
   state?: string;
-  courseTitle: string;
+  courseId: string;
   ref: string;
 }
